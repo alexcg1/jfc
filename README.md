@@ -13,9 +13,8 @@ A simple CLI to:
 
 ## Features
 
-- Read config from YAML or command-line arguments
+- Read config from YAML (coming soon) or command-line arguments
 - Connect via REST, gRPC, or WebSockets gateways
-- (Coming soon) incremental indexing - only index new data
 
 ### Install
 
@@ -28,20 +27,22 @@ pip install jfc
 ### Index
 
 ```
-jfc index -d <name_of_folder>/<csv_filename>
+jfc index <data>
 ```
+
+Where `<data` is a CSV file or glob
 
 ### Search
 
 ```
-jfc search -d <string>/<image.png>
+jfc search <data>
 ```
+
+Where <data> is a file or string
 
 ### Arguments
 
 | Argument | Meaning                                            | 
 | ---      | ---                                                | 
 | `-h`     | URL to host                                        | 
-| `-d`     | Path to data source                                | 
 | `-n`     | Number of documents to index OR return from search |
-| `-c`     | Load all arguments from YAML file                  |

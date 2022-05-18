@@ -24,17 +24,16 @@ def index(host, num_docs, data, **kwargs):
     jfc index foo/**/*.jpg
     """
     # if config_file:
-        # config = load_config(config_file)
+    # config = load_config(config_file)
     # else:
-        # config = default_config
+    # config = default_config
 
     # if host:
-        # config["host"] = host
+    # config["host"] = host
     # if num_docs:
-        # config["indexing"]["num_docs"] = int(num_docs)
+    # config["indexing"]["num_docs"] = int(num_docs)
     # if data:
-        # config["indexing"]["data"] = data
-
+    # config["indexing"]["data"] = data
 
     if not host:
         print("Please specify a host with --host")
@@ -42,24 +41,23 @@ def index(host, num_docs, data, **kwargs):
         # print("Please specify a host")
         # sys.exit()
 
-
     # if os.path.isdir(data):
-        # print(f"Indexing from folder: {data}")
-        # docs = DocumentArray.from_files(
-            # f"{config['indexing']['data']}/**/*.jpg",
-            # recursive=True,
-            # size=int(config["indexing"]["num_docs"]),
-        # )  # fix this to use all image formats
-        # for doc in all_docs:
-            # if doc.uri not in already_indexed[:, "uri"]:
-                # print(f"{doc.uri} not indexed yet")
-                # new_docs.append(doc)
-            # else:
-                # print(f"{doc.uri} already indexed")
+    # print(f"Indexing from folder: {data}")
+    # docs = DocumentArray.from_files(
+    # f"{config['indexing']['data']}/**/*.jpg",
+    # recursive=True,
+    # size=int(config["indexing"]["num_docs"]),
+    # )  # fix this to use all image formats
+    # for doc in all_docs:
+    # if doc.uri not in already_indexed[:, "uri"]:
+    # print(f"{doc.uri} not indexed yet")
+    # new_docs.append(doc)
+    # else:
+    # print(f"{doc.uri} already indexed")
 
     if data.split(".")[-1] in Formats.table:
         print("Indexing from csv")
-        docs = DocumentArray.from_csv(data)
+        docs = DocumentArray.from_csv(data, size=num_docs)
 
     elif data.startswith("docarray://"):
         raise NotImplementedError
@@ -67,7 +65,7 @@ def index(host, num_docs, data, **kwargs):
     else:
         try:
             print("Assuming that this is a glob and treating as such")
-            docs = DocumentArray.from_files(data)
+            docs = DocumentArray.from_files(data, size=num_docs)
         except:
             print("Unknown format")
             print("Please run jfc --help for more information")
@@ -83,9 +81,9 @@ def index(host, num_docs, data, **kwargs):
     # for doc in new_docs:
     docs.summary()
     # for doc in docs:
-        # if doc.uri:
-            # print(f"Processing {doc.uri}")
-            # preproc(doc)
+    # if doc.uri:
+    # print(f"Processing {doc.uri}")
+    # preproc(doc)
 
     # new_docs.summary()
     client = Client(host)
@@ -108,11 +106,11 @@ def search(data, host, **kwargs):
     jfc search "foo foo foo"
     """
     # if config_file:
-        # config_file = load_config(config_file)
+    # config_file = load_config(config_file)
     # else:
-        # config_file = default_config
+    # config_file = default_config
 
-    if os.path.isfile(data):
+    if os.path.exists(data):
         search_type = "file"
         doc = Document(uri=data)
         print(f"Searching with file {doc.uri}")
@@ -121,20 +119,18 @@ def search(data, host, **kwargs):
     else:
         # assume it's a string
         search_type = "text"
+        print(search_type)
         doc = Document(text=data)
 
     client = Client(host=host)
     response = client.search(doc)
 
     for match in response[0].matches:
-        if search_type == "text":
-            print(match.text)
-        else:
-            print(match.uri)
-
-
-# index()
-# search("data/images/10000.jpg")
+        print(f"Text: {match.text}")
+        print(f"URI: {match.uri}")
+        print(f"Tags: {match.tags}")
+        print(f"Score: {match.scores['cosine']}")
+        print("-" * 60)
 
 
 @click.command()
@@ -142,12 +138,12 @@ def search(data, host, **kwargs):
 @click.argument("data")
 @click.option("--num_docs", "-n")
 @click.option("--host", "-h")
-@click.option("--config_file", "-c")
-def main(task: str, host, num_docs, data, config_file):
+# @click.option("--config_file", "-c")
+def main(task: str, host, num_docs, data):
     if task == "index":
-        index(config_file=config_file, host=host, num_docs=num_docs, data=data)
+        index(host=host, num_docs=num_docs, data=data)
     elif task == "search":
-        search(config_file, data)
+        search(data, host=host, num_docs=num_docs)
     else:
         print("Please add 'index' or 'search' to your command")
 
