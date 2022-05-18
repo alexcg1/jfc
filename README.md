@@ -30,7 +30,7 @@ pip install jfc
 jfc index <data>
 ```
 
-Where `<data` is a CSV file or glob
+Where `<data>` is a CSV file or glob
 
 ### Search
 
@@ -38,7 +38,7 @@ Where `<data` is a CSV file or glob
 jfc search <data>
 ```
 
-Where <data> is a file or string
+Where `<data>` is a file or string
 
 ### Arguments
 
