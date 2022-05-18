@@ -4,7 +4,7 @@
 
 That's right: Jina Flow Companion. Not Jentucky Fried Chicken, or Jesus Fiona Christ.
 
-## What do it do?
+## What does it do?
 
 A simple CLI to:
 
@@ -14,7 +14,7 @@ A simple CLI to:
 ## Features
 
 - Read config from YAML (coming soon) or command-line arguments
-- Connect via REST, gRPC, or WebSockets gateways
+- Connect via REST, gRPC, or WebSocket gateways
 
 ### Install
 
@@ -27,7 +27,7 @@ pip install jfc
 ### Index
 
 ```
-jfc index <data>
+jfc index <data> -h https://foo.wolf.jina.ai
 ```
 
 Where `<data>` is a CSV file or glob
@@ -35,7 +35,7 @@ Where `<data>` is a CSV file or glob
 ### Search
 
 ```
-jfc search <data>
+jfc search <data> -h https://foo.wolf.jina.ai
 ```
 
 Where `<data>` is a file or string
@@ -46,3 +46,8 @@ Where `<data>` is a file or string
 | ---      | ---                                                | 
 | `-h`     | URL to host                                        | 
 | `-n`     | Number of documents to index OR return from search |
+
+### Notes
+
+- JFC doesn't do any preprocessing of data. What you input is what you get
+- This is alpha-quality software that I built to scratch an itch. Don't expect miracles ;)
