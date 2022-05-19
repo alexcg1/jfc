@@ -18,8 +18,6 @@ A simple CLI to:
 
 ### Install
 
-This will be implemented soon:
-
 ```
 pip install jfc
 ```
