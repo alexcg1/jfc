@@ -1,1 +1,1 @@
-jina[client]==3.3.23
+jina[client]==3.4.4

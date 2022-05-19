@@ -1,8 +1,0 @@
-host: "https://fde67874cf.wolf.jina.ai"
-indexing:
-  db_name: "indexed_docs.db" # stores list of already indexed docs
-  #data: "./data/images/*.jpg"
-  data: "./data"
-  num_docs: 2
-searching:
-  image_size: [64, 64]
