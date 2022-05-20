@@ -159,7 +159,8 @@ def search(data, host, tags, **kwargs):
     response = client.search(doc)
 
     for match in response[0].matches:
-        print(f"Text: {match.text}")
+        if match.text:
+            print(f"Text: {match.text}")
         if match.uri:
             print(f"URI: {match.uri}")
         print(f"Score: {match.scores['cosine'].value}")
