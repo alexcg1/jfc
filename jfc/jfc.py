@@ -1,7 +1,9 @@
 from jina import Client
+from pprint import pprint
 from docarray import DocumentArray, Document
 import os
-from jfc.helper import preproc, load_config, Formats, default_config
+# from jfc.helper import preproc, load_config, Formats, default_config
+from helper import preproc, load_config, Formats, default_config
 import click
 import sys
 from docarray import Document
@@ -38,7 +40,7 @@ import yaml
 # }
 
 
-def index(host, num_docs, data, **kwargs):
+def index(host, num_docs, data, tags, **kwargs):
     """
     Index data in various formats:
 
@@ -126,7 +128,7 @@ def index(host, num_docs, data, **kwargs):
     # already_indexed.extend(new_docs)
 
 
-def search(data, host, **kwargs):
+def search(data, host, tags, **kwargs):
     """
     Run a search operation against a Jina Flow
 
@@ -158,9 +160,12 @@ def search(data, host, **kwargs):
 
     for match in response[0].matches:
         print(f"Text: {match.text}")
-        print(f"URI: {match.uri}")
-        print(f"Tags: {match.tags}")
-        print(f"Score: {match.scores['cosine']}")
+        if match.uri:
+            print(f"URI: {match.uri}")
+        print(f"Score: {match.scores['cosine'].value}")
+        if tags:
+            print("Tags:")
+            pprint(match.tags)
         print("-" * 60)
 
 
@@ -169,12 +174,13 @@ def search(data, host, **kwargs):
 @click.argument("data")
 @click.option("--num_docs", "-n")
 @click.option("--host", "-h")
+@click.option("--tags", is_flag=True)
 # @click.option("--config_file", "-c")
-def main(task: str, host, num_docs, data):
+def main(task: str, host, num_docs, data, tags):
     if task == "index":
-        index(host=host, num_docs=num_docs, data=data)
+        index(host=host, num_docs=num_docs, data=data, tags=None)
     elif task == "search":
-        search(data, host=host, num_docs=num_docs)
+        search(data, host=host, num_docs=num_docs, tags=tags)
     else:
         print("Please add 'index' or 'search' to your command")
 
