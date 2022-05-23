@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jfc"
-version = "3.4.4.4"
+version = "3.4.4.6"
 description = "Jina Flow Companion - search and index from the CLI"
 license = "Apache-2.0"
 authors = ["Alex C-G <alex.cg@jina.ai>"]

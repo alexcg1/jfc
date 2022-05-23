@@ -42,6 +42,17 @@ jfc search <data> -h https://foo.wolf.jina.ai
 
 Where `<data>` is a file or string
 
+### Other endpoints
+
+Just use arbitrary endpoint name instead of `search` or `index`
+
+For [AnnLiteIndexer](https://hub.jina.ai/executor/7yypg8qk) (and maybe others?):
+
+```
+jfc status -h https://foo.wolf.jina.ai # Get index status
+jfc clear -h https://foo.wolf.jina.ai  # Clear index
+```
+
 ### Arguments
 
 | Argument | Meaning                                            | 
